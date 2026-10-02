@@ -1,0 +1,19 @@
+# Kubernetes temporary files
+*.log
+*.tmp
+
+# Local cluster files
+kind-config-local.yaml
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+
+# Secrets
+.env
+.env.*
+*.secret.yaml
