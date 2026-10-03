@@ -1,0 +1,317 @@
+apiVersion: v1
+items:
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2026-10-02T08:41:25Z"
+    generation: 2
+    labels:
+      app: nginx
+    name: nginx
+    namespace: default
+    resourceVersion: "3021"
+    uid: b76d9e21-9aab-4651-9ab4-02ce913f7879
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 3
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: nginx
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        labels:
+          app: nginx
+      spec:
+        containers:
+        - image: nginx:latest
+          imagePullPolicy: Always
+          name: nginx
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 3
+    conditions:
+    - lastTransitionTime: "2026-10-02T08:41:25Z"
+      lastUpdateTime: "2026-10-02T08:41:52Z"
+      message: ReplicaSet "nginx-598cc96cd9" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2026-10-02T08:58:12Z"
+      lastUpdateTime: "2026-10-02T08:58:12Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 2
+    readyReplicas: 3
+    replicas: 3
+    terminatingReplicas: 0
+    updatedReplicas: 3
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "3"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"name":"nginx-deployment","namespace":"default"},"spec":{"replicas":3,"selector":{"matchLabels":{"app":"nginx"}},"template":{"metadata":{"labels":{"app":"nginx"}},"spec":{"containers":[{"image":"nginx:1.27","name":"nginx","ports":[{"containerPort":80}]}]}}}}
+    creationTimestamp: "2026-10-02T09:02:59Z"
+    generation: 3
+    name: nginx-deployment
+    namespace: default
+    resourceVersion: "4340"
+    uid: 02ae3827-92be-4e86-a665-d1b87df60398
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 3
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: nginx
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        labels:
+          app: nginx
+      spec:
+        containers:
+        - image: nginx:1.27
+          imagePullPolicy: IfNotPresent
+          name: nginx
+          ports:
+          - containerPort: 80
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 3
+    conditions:
+    - lastTransitionTime: "2026-10-02T09:03:39Z"
+      lastUpdateTime: "2026-10-02T09:03:39Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    - lastTransitionTime: "2026-10-02T09:02:59Z"
+      lastUpdateTime: "2026-10-02T09:10:53Z"
+      message: ReplicaSet "nginx-deployment-75cc477c85" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    observedGeneration: 3
+    readyReplicas: 3
+    replicas: 3
+    terminatingReplicas: 0
+    updatedReplicas: 3
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: "2026-10-02T08:29:07Z"
+    labels:
+      component: apiserver
+      provider: kubernetes
+    name: kubernetes
+    namespace: default
+    resourceVersion: "267"
+    uid: 8d5e060a-46ba-46f4-be2e-3cb4ef0f2b09
+  spec:
+    clusterIP: 10.96.0.1
+    clusterIPs:
+    - 10.96.0.1
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: https
+      port: 443
+      protocol: TCP
+      targetPort: 6443
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    creationTimestamp: "2026-10-02T08:49:09Z"
+    labels:
+      app: nginx
+    name: nginx-service
+    namespace: default
+    resourceVersion: "2220"
+    uid: ea4c8858-76fe-417f-80da-e9048941d940
+  spec:
+    clusterIP: 10.96.185.204
+    clusterIPs:
+    - 10.96.185.204
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - port: 80
+      protocol: TCP
+      targetPort: 80
+    selector:
+      app: nginx
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  data:
+    APP_ENV: production
+    APP_NAME: ecommerce
+  kind: ConfigMap
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","data":{"APP_ENV":"production","APP_NAME":"ecommerce"},"kind":"ConfigMap","metadata":{"annotations":{},"name":"app-config","namespace":"default"}}
+    creationTimestamp: "2026-10-02T09:13:57Z"
+    name: app-config
+    namespace: default
+    resourceVersion: "5176"
+    uid: 13498a33-e58f-442c-978a-44375b48e5d3
+- apiVersion: v1
+  data:
+    ca.crt: |
+      -----BEGIN CERTIFICATE-----
+      MIIDBTCCAe2gAwIBAgIIWuUPtuJMlVMwDQYJKoZIhvcNAQELBQAwFTETMBEGA1UE
+      AxMKa3ViZXJuZXRlczAeFw0yNjEwMDIwODIzNDJaFw0zNjA5MjkwODI4NDJaMBUx
+      EzARBgNVBAMTCmt1YmVybmV0ZXMwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEK
+      AoIBAQDTMcZCj0wJYccOk8ON1VFeTyHn2oXDUoM/uOKdVQy9bcIM4wc9prR51fhU
+      Gs4MIbIIws+IDL8/x6KlIbE/zoMKignGSuYSdoZA14U70glPw+K3ouotKtsU5mRF
+      cPGk2rfALbXPZOpNgO+IFfD0n4zY42M31K7a5kLce+Lh62AIDwJjqfTm9dgKXF4e
+      OWcNRnA+F6gN0P6b7fZZjjuHfrczUQDMItS/5JH1kBvmvKdcMqYT5Ah01W8xdnlK
+      ZpY1KkWOyJ94vHX4O99h1AQG0ty2urqG7sgF3978WQjIf+Q4XWPGQjxJtY3A16Cn
+      k+PhF16FYa63uee1hHaAGb6rQ/k1AgMBAAGjWTBXMA4GA1UdDwEB/wQEAwICpDAP
+      BgNVHRMBAf8EBTADAQH/MB0GA1UdDgQWBBRKUUXAdnRvZgA9FdGWua9uN4LVszAV
+      BgNVHREEDjAMggprdWJlcm5ldGVzMA0GCSqGSIb3DQEBCwUAA4IBAQACzEFHo5i/
+      b8PcVS4OC8BB/1BF1loP4Kq6HGUfnFXUAm4coNcBnWIEYWthwJDyuf+XQLYEeMbM
+      fpGiOQFGGrI7gh2UNRGW4CSwnBwcRTOr+YqvbD2jDuLqkIE9CgYyCI7rGZU46xCf
+      kcrsYIxdeBCPswO0siBeiam9BQCpSueDff31sTs7wBeV3XxTGlFnzTdxGOBYHOPh
+      2yE83wKk3rvVIFFj3q5JzyEB5wSVaOqADC4mX8I0hZxQzNAnmimxwH0sQjp3WR1k
+      RZcBX0k1Il9M2BDB4pfVik0D023y4eqtsSSAoRdQ47cR04wcineglCmqRopxJsVF
+      ywyN2nKY3RBj
+      -----END CERTIFICATE-----
+  kind: ConfigMap
+  metadata:
+    annotations:
+      kubernetes.io/description: Contains a CA bundle that can be used to verify the
+        kube-apiserver when using internal endpoints such as the internal service
+        IP or kubernetes.default.svc. No other usage is guaranteed across distributions
+        of Kubernetes clusters.
+    creationTimestamp: "2026-10-02T08:29:14Z"
+    name: kube-root-ca.crt
+    namespace: default
+    resourceVersion: "393"
+    uid: 5b971b8c-b590-4213-98b4-595e5c6563c6
+- apiVersion: v1
+  data:
+    DB_PASSWORD: TXlTdHJvbmdQYXNzd29yZDEyMw==
+    DB_USERNAME: YWRtaW4=
+  kind: Secret
+  metadata:
+    creationTimestamp: "2026-10-02T09:27:54Z"
+    name: db-secret
+    namespace: default
+    resourceVersion: "5789"
+    uid: c217221f-ff04-4421-b89f-80833b831c09
+  type: Opaque
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"PersistentVolumeClaim","metadata":{"annotations":{},"name":"app-storage","namespace":"default"},"spec":{"accessModes":["ReadWriteOnce"],"resources":{"requests":{"storage":"1Gi"}}}}
+      pv.kubernetes.io/bind-completed: "yes"
+      pv.kubernetes.io/bound-by-controller: "yes"
+      volume.beta.kubernetes.io/storage-provisioner: rancher.io/local-path
+      volume.kubernetes.io/selected-node: ecommerce-cluster-control-plane
+      volume.kubernetes.io/storage-provisioner: rancher.io/local-path
+    creationTimestamp: "2026-10-02T09:35:38Z"
+    finalizers:
+    - kubernetes.io/pvc-protection
+    name: app-storage
+    namespace: default
+    resourceVersion: "7215"
+    uid: 39cd5cc6-319a-43c6-8e67-aedbad0f8adf
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 1Gi
+    storageClassName: standard
+    volumeMode: Filesystem
+    volumeName: pvc-39cd5cc6-319a-43c6-8e67-aedbad0f8adf
+  status:
+    accessModes:
+    - ReadWriteOnce
+    capacity:
+      storage: 1Gi
+    conditions:
+    - lastProbeTime: null
+      lastTransitionTime: "2026-10-02T09:44:03Z"
+      message: No pods are currently referencing this PVC
+      reason: NoPodsUsingPVC
+      status: "True"
+      type: Unused
+    phase: Bound
+- apiVersion: networking.k8s.io/v1
+  kind: Ingress
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"networking.k8s.io/v1","kind":"Ingress","metadata":{"annotations":{},"name":"nginx-ingress","namespace":"default"},"spec":{"ingressClassName":"nginx","rules":[{"host":"nginx.local","http":{"paths":[{"backend":{"service":{"name":"nginx-service","port":{"number":80}}},"path":"/","pathType":"Prefix"}]}}]}}
+    creationTimestamp: "2026-10-02T09:48:25Z"
+    generation: 1
+    name: nginx-ingress
+    namespace: default
+    resourceVersion: "7749"
+    uid: c3459bef-9386-433a-bdad-4ca99bfd3eef
+  spec:
+    ingressClassName: nginx
+    rules:
+    - host: nginx.local
+      http:
+        paths:
+        - backend:
+            service:
+              name: nginx-service
+              port:
+                number: 80
+          path: /
+          pathType: Prefix
+  status:
+    loadBalancer:
+      ingress:
+      - hostname: localhost
+kind: List
+metadata:
+  resourceVersion: ""
